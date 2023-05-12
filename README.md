@@ -8,5 +8,5 @@ mvn wrapper:wrapper    (This installs the .mvn folder required for deployment by
 To run the application, execute the command:
 
 ```
- mvn clean compile package && java -jar ./target/demo-0.0.1-SNAPSHOT.jar
+ mvn clean compile package && java -jar ./target/webapp-0.0.1-SNAPSHOT.jar
 ```
