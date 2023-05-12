@@ -1,3 +1,10 @@
+/*
+Author: Daniel Beiers
+Student #: c3039134
+Course: SENG4400
+Assessment: Assignment 2
+ */
+
 package org.seng4400;
 
 
