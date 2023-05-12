@@ -1,6 +1,9 @@
-# Spring Boot Demo
+# Spring Boot WebApp
+A RESTful HTTP Server in Spring Boot
 
-Example repository for my blog on [creating a RESTful HTTP Server in Spring Boot](https://www.sohamkamani.com/java/spring-rest-http-server/)
+Install:
+
+mvn wrapper:wrapper    (This installs the .mvn folder required for deployment by Google App Engine)
 
 To run the application, execute the command:
 
