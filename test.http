@@ -14,16 +14,6 @@ GET http://localhost:8081/echo/hello
 
 ###
 
-POST http://localhost:8081/coffee
-Content-Type: application/json
-
-{
-    "size": "M",
-    "milk": false
-}
-
-###
-
 GET http://localhost:8081/echo/headers
 
 ###
