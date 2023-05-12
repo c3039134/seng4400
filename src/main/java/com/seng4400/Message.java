@@ -1,11 +1,16 @@
+/*
+Author: Daniel Beiers
+Student #: c3039134
+Course: SENG4400
+Assessment: Assignment 2
+ */
 package com.seng4400;
 
 import java.util.Arrays;
 
+// Class to create a schema for individual messages
 public class Message {
     int[] answer;
-
-
 
     int time_taken;
 

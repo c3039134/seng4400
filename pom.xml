@@ -8,9 +8,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.seng4400</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>webapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
+	<name>webapp</name>
 	<description>Web Page to Store and Display Published messages answers</description>
 	<properties>
 		<java.version>11</java.version>
