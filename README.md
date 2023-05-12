@@ -1,7 +1,7 @@
 # Spring Boot WebApp
 A RESTful HTTP Server in Spring Boot
 
-##Pre-Requisites
+## Pre-Requisites
 Install:
 
 mvn wrapper:wrapper    (This installs the .mvn folder required for deployment by Google App Engine)
