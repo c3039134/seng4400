@@ -86,8 +86,8 @@ public class SubscriberClass {
                         totalTime = finishTime - timeStart;
 
                         // If the time is too short, generate a random time for demonstrative purposes
-                        if(totalTime < 3)
-                            totalTime = random.nextInt(30);
+                        //if(totalTime < 3)
+                        //   totalTime = random.nextInt(30);
 
                         // Create a string of the results and display to console
                         output.append("{\n\t");
