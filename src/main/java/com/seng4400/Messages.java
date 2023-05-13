@@ -70,17 +70,17 @@ public class Messages {
             if (!messages.isEmpty()) {
                 int limit = Math.min(messages.size(), 50);
                 list.append("Total Messages: ");
-                list.append(messages.size()).append("\n");
+                list.append(messages.size()).append("<br>");
+                list.append("Total Time: ");
+                list.append(getTotalTime()).append("<br>");
                 for (int i = 0; i < limit; i++) {
                     list.append("Answer: ");
                     list.append(Arrays.toString(messages.get(i).getAnswer()));
-                    list.append("\n");
+                    list.append("<br>");
                     list.append("Time Taken: ");
                     list.append(messages.get(i).getTime_taken());
                     list.append("<br>");
                 }
-                list.append("Total Time: ");
-                list.append(getTotalTime());
                 return list.toString();
             }
         }

@@ -7,6 +7,8 @@ Assessment: Assignment 2
 package com.seng4400;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -50,9 +52,27 @@ public class WebEndpoint {
 				"<body>\n" +
 				"  <h1>Pub Sub Management</h1>\n" +
 				"     <ul>\n" +
-				"        <li><a href=\"https://seng4400-385204.ts.r.appspot.com/messages\">See your messages here</a></li>\n" +
-				"        <li><a href=\"https://seng4400-385204.ts.r.appspot.com/clear\">Clear your messages here</a></li>\n" +
+				"        <li><a href=\"/messages\">See your messages here</a></li>\n" +
+				"        <li><a href=\"/clear\">Clear your messages here</a></li>\n" +
+				"        <li><a href=\"/publish\">Publish with defaults</a></li>\n" +
+				"        <li><a href=\"/subscribe\">Subscribe with defaults</a></li>\n" +
 				"     </ul>\n" +
+				"	  <br><br>\n" +
+				"     <h2>Custom Publish</h2>\n" +
+				"     <form action=\"/publish\" method=\"GET\" style='display:inline;'>\n" +
+				"		  <label for=\"maxPrime\">Maximum Prime (max100000):</label>\n" +
+				"		  <input type=\"text\" id=\"maxPrime\" name=\"maxPrime\"><br>\n" +
+				"		  <label for=\"msgDelay\">Message Delay (milliSeconds):</label>\n" +
+				"		  <input type=\"text\" id=\"msgDelay\" name=\"msgDelay\">\n" +
+				"		  <input type=\"submit\" value=\"Submit\">\n" +
+				"	  </form>\n" +
+				"	  <br><br>\n" +
+				"     <h2>Custom Subscribe</h2>\n" +
+				"     <form action=\"/subscribe\" method=\"GET\" style='display:inline;'>\n" +
+				"		  <label for=\"endpoint\">Endpoint to post to (http://localhost:8081/addMessage):</label>\n" +
+				"		  <input type=\"text\" id=\"endpoint\" name=\"endpoint\">\n" +
+				"		  <input type=\"submit\" value=\"Submit\">\n" +
+				"	  </form>\n" +
 				"</body>\n" +
 				"</html>";
 	}
@@ -61,7 +81,7 @@ public class WebEndpoint {
 	//Routing to clear the data in the message storage
 	public String clearMessages() throws IOException {
 		messageStore.clear();
-		return "<meta http-equiv=\"refresh\" content=\"1; URL=https://seng4400-385204.ts.r.appspot.com/\" />";
+		return "<meta http-equiv=\"refresh\" content=\"1; URL=/\" />";
 	}
 
 
@@ -76,15 +96,63 @@ public class WebEndpoint {
 		else return "Welcome";
 	}
 
+	//@Async
 	@PostMapping("/addMessage")
 	// Routing to add a message to the storage
 	// Authorisation is simply a header token, that if vacant, will not allow messages to be added.
-	public String addMessage(@RequestBody Message message, @RequestHeader("token") String token) {
+	public void addMessage(@RequestBody Message message, @RequestHeader("token") String token) {
 		if(token.equals("randomSecurityToken")){
 			messageStore.addMessage(message);
-			return message.toString();
+			//return message.toString();
 		}
-		return "Invalid token";
+		//return "Invalid token";
+
+	}
+
+	/*@Async
+	@GetMapping("/publish")
+	//
+	public void publish() throws IOException, ExecutionException, InterruptedException {
+		PublisherClass publisher = new PublisherClass();
+		publisher.publisher();
+	}*/
+
+	//@Async
+	@GetMapping("/publish")
+	//
+	public void publishWithParams(@RequestParam Map<String,String> reqParam) throws IOException, ExecutionException, InterruptedException {
+		PublisherClass publisher;
+
+		if(reqParam.containsKey("maxPrime") && reqParam.containsKey("msgDelay")) {
+			int maxPrime = Integer.parseInt(reqParam.get("maxPrime"));
+			int msgDelay = Integer.parseInt(reqParam.get("msgDelay"));
+			publisher = new PublisherClass(maxPrime,msgDelay);
+			//publisher.publisher();
+		}
+		else{
+			publisher = new PublisherClass();
+			//publisher.publisher();
+		}
+		publisher.publisher();
+		//return "Publishing...<br>Returning to main screen<meta http-equiv=\"refresh\" content=\"2; URL=/\" />";
+	}
+	//@Async
+	@GetMapping("/subscribe")
+	//
+	public void subscribeWithParams(@RequestParam Map<String,String> reqParam) throws IOException, ExecutionException, InterruptedException {
+		SubscriberClass subscriber;
+
+		if(reqParam.containsKey("endpoint")) {
+			String endpoint = reqParam.get("endpoint");
+			subscriber = new SubscriberClass(endpoint);
+			//subscriber.subscribe();
+		}
+		else{
+			subscriber = new SubscriberClass();
+			//subscriber.subscribe();
+		}
+		subscriber.subscribe();
+		//return "Subscribing...<br>Returning to main screen<meta http-equiv=\"refresh\" content=\"2; URL=/\" />";
 
 	}
 }
