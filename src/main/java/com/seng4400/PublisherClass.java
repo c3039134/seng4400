@@ -31,7 +31,7 @@ public class PublisherClass{
 
     public PublisherClass(){
         messageTime = 1000;
-        primeMax = 1000;
+        primeMax = 1000000;
     }
 
     public PublisherClass(int maxPrime,int msgDelay){
