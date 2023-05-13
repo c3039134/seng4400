@@ -32,7 +32,7 @@ public class PublisherClass{
 
         if(args.length ==0){
             messageTime = 1000; //Time delay between publishing messages in milliSeconds
-            primeMax = 100; //The upper limit on the random number generator
+            primeMax = 1000000; //The upper limit on the random number generator
         }
         else{
             messageTime = Integer.parseInt(args[0]);

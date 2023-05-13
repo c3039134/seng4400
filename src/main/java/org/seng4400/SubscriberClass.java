@@ -33,7 +33,7 @@ import java.util.concurrent.TimeoutException;
 public class SubscriberClass {
 
     public static String urlString;
-
+    static long totalTime = 0;
     public static void main(String... args) throws Exception {
         // Setup Google required variables
         String projectId = "seng4400-385204";
@@ -52,7 +52,7 @@ public class SubscriberClass {
         ProjectSubscriptionName subscriptionName =
                 ProjectSubscriptionName.of(projectId, subscriptionId);
         Random random = new Random();
-
+        totalTime = 0;
         // Instantiate an asynchronous message receiver.
         MessageReceiver receiver =
                 (PubsubMessage message, AckReplyConsumer consumer) -> {
@@ -67,9 +67,8 @@ public class SubscriberClass {
                     int questionValue = Integer.parseInt(String.valueOf(object.get("question").getAsInt()));
 
                     // Get the current time
-                    long timeStart = System.currentTimeMillis();
+                    long timeStart;
                     long finishTime;
-                    long totalTime;
 
                     // Declare variable to hold an array of prime numbers
                     List<Integer> primes;
@@ -77,35 +76,36 @@ public class SubscriberClass {
 
                     // If value is over HIGH value, the question is ignored but it is ack'd so as to delete it from queue
                     if(questionValue<=1000000){
-
+                        timeStart = System.currentTimeMillis();
                         // Run the function to find all prime values
                         primes = getPrimes(questionValue);
 
                         // Get the current time
                         finishTime = System.currentTimeMillis();
 
-                        // Find the time difference
-                        totalTime = finishTime - timeStart;
-
+                        // Find the time difference and add to total time
+                        long timetaken = finishTime - timeStart;
+                        totalTime+=timetaken;
                         // If the time is too short, generate a random time for demonstrative purposes
-                        if(totalTime < 3)
-                            totalTime = random.nextInt(10,30);
+                        //if(totalTime < 3)
+                        //    totalTime = random.nextInt(10,30);
 
                         // Create a string of the results and display to console
                         output.append("{\n\t");
                         output.append("\"answer\":");
                         output.append(primes).append(",\n\t");
                         output.append("\"time_taken\":");
-                        output.append(Integer.parseInt(String.valueOf(totalTime)));
+                        output.append(Integer.parseInt(String.valueOf(timetaken)));
                         output.append("\n}");
                         System.out.println(output);
 
                         // Convert the string to a Json Object and post to endpoint
-                        try {
+                        // Needed in Part 3 and 4 of the assignment only
+                        /*try {
                             httpPost(convertStringToJson(String.valueOf(output)));
                         } catch (IOException e) {
                             throw new RuntimeException(e);
-                        }
+                        }*/
                     }
 
                     // Acknowledge message
@@ -124,6 +124,7 @@ public class SubscriberClass {
             // Shut down the subscriber after 240s. Stop receiving messages.
             subscriber.stopAsync();
         }
+        System.out.println("Total time taken: " + totalTime);
     }
 
     // Function to get all the prime numbers up to a set integer and return as an integer array
@@ -157,6 +158,7 @@ public class SubscriberClass {
     }
 
     // Function to send a HttpPost
+    //Used in Part 3 and 4 of Assignment
     public static void httpPost(JsonObject object) throws IOException {
         // Create url connection to endpoint
         URL url = new URL(urlString);
