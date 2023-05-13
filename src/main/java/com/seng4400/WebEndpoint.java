@@ -85,15 +85,13 @@ public class WebEndpoint {
 	}
 
 
-	@Async
+	//@Async
 	@GetMapping("/messages")
 	// Routing to return the state of the message store asynchronously, so there is no delay in responses.
 	// Page refresh is set to 1 second
 	public String messages(HttpServletResponse response) {
 		response.setIntHeader("Refresh", 1);
-		if(messageStore != null)
-			return messageStore.toString();
-		else return "Welcome";
+		return messageStore.toString();
 	}
 
 	//@Async
@@ -103,6 +101,7 @@ public class WebEndpoint {
 	public void addMessage(@RequestBody Message message, @RequestHeader("token") String token) {
 		if(token.equals("randomSecurityToken")){
 			messageStore.addMessage(message);
+			messageStore.setTotalTime(message.time_taken);
 			//return message.toString();
 		}
 		//return "Invalid token";

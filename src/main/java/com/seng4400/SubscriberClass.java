@@ -117,7 +117,7 @@ public class SubscriberClass {
             subscriber.startAsync().awaitRunning();
             System.out.printf("Listening for messages on %s:\n", subscriptionName.toString());
             // Allow the subscriber to run for 240s unless an unrecoverable error occurs.
-            subscriber.awaitTerminated(240, TimeUnit.SECONDS);
+            subscriber.awaitTerminated(180, TimeUnit.SECONDS);
         } catch (TimeoutException timeoutException) {
             // Shut down the subscriber after 240s. Stop receiving messages.
             subscriber.stopAsync();

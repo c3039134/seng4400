@@ -16,9 +16,11 @@ public class Messages {
 
     // Declare a list of messages
     List<Message> messages;
+    int time;
 
     // Constructor to instantiate the message list
     public Messages() {
+        time= 0;
         messages = new ArrayList<>();
     }
 
@@ -39,6 +41,7 @@ public class Messages {
 
         //Add messages to the front of the list
         messages.add(0, message);
+        //setTotalTime(message.time_taken);
     }
 
     // Return a message from a specific index
@@ -48,15 +51,15 @@ public class Messages {
 
     // Function to add the total time taken to process all prime number calculations
     public int getTotalTime() {
-        int time = 0;
-        for (Message m : messages) {
-            time += m.getTime_taken();
-        }
         return time;
+    }
+    public void setTotalTime(int add) {
+        time += add;
     }
 
     // Function to empty the list
     public void clear() {
+        time = 0;
         messages.clear();
     }
 
@@ -68,17 +71,17 @@ public class Messages {
 
         if (messages != null) {
             if (!messages.isEmpty()) {
-                int limit = Math.min(messages.size(), 50);
+                //int limit = Math.min(messages.size(), 50);
                 list.append("Total Messages: ");
                 list.append(messages.size()).append("<br>");
                 list.append("Total Time: ");
                 list.append(getTotalTime()).append("<br>");
-                for (int i = 0; i < limit; i++) {
+                for (Message m: messages) {
                     list.append("Answer: ");
-                    list.append(Arrays.toString(messages.get(i).getAnswer()));
+                    list.append(Arrays.toString(m.getAnswer()));
                     list.append("<br>");
                     list.append("Time Taken: ");
-                    list.append(messages.get(i).getTime_taken());
+                    list.append(m.getTime_taken());
                     list.append("<br>");
                 }
                 return list.toString();

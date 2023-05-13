@@ -74,7 +74,7 @@ public class PublisherClass{
             if (publisher != null) {
                 // When finished with the publisher, shutdown to free up resources.
                 publisher.shutdown();
-                publisher.awaitTermination(3, TimeUnit.MINUTES);
+                publisher.awaitTermination(1, TimeUnit.MINUTES);
             }
         }
     }
